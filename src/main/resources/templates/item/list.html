@@ -4,7 +4,16 @@
 	layout:decorate="~{layout/default.html}">
 
 <div layout:fragment="content">
-	<h1>HiHi!</h1>
+	<div th:if="${itemList == null or itemList.empty}">
+		<p>등록된 작품이 없습니다.</p>
+	</div>
+	<div th:if="${itemList != null and not itemList.empty}">
+		<div th:each="item : ${itemList}">
+			<span th:text="${item.title}">작품명</span> <span
+				th:text="${item.description}">작품설명</span>
+		</div>
+	</div>
+	<a href="/item/new" class="btn btn-primary">등록</a>
 </div>
 
 </html>
