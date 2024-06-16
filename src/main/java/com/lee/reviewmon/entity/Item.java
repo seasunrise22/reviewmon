@@ -11,18 +11,24 @@ public class Item {
 	private String title;
 	@Column
 	private String description;
-	
+	@Column
+	private String imageFileName;
 	
 	public Item() {
 	}
-
-	public Item(String title, String description) {
+	
+	public Item(String title, String description, String imageFileName) {
 		this.title = title;
 		this.description = description;
+		this.imageFileName = imageFileName;
 	}
-	
 
-	
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", title=" + title + ", description=" + description + ", imageFileName="
+				+ imageFileName + "]";
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -47,11 +53,11 @@ public class Item {
 		this.description = description;
 	}
 
-	
-	
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", title=" + title + ", description=" + description + "]";
-	}	
-	
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
 }
