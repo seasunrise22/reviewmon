@@ -2,6 +2,7 @@ package com.lee.reviewmon.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,11 @@ public class ItemService {
 	
 	@Value("${file.upload-dir}")
 	private String uploadDir;
+	
+	// 전체 작품 목록 반환
+	public List<Item> getAll() {
+		return itemRepository.findAll();
+	}
 
 	// 새 작품 생성 메서드
 	public void create(ItemForm form) {
