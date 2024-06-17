@@ -8,10 +8,10 @@
 		<div class="d-flex justify-content-start mb-4">
 			<a href="/item/new" class="btn btn-primary">등록</a>
 		</div>
-		<div th:if="${itemList == null or itemList.empty}">
+		<div th:if="${itemList == itemList.empty}">
 			<p>등록된 작품이 없습니다.</p>
 		</div>
-		<div th:if="${itemList != null and not itemList.empty}">
+		<div th:if="${not itemList.empty}">
 			<div class="row">
 				<div th:each="item : ${itemList}" class="col-md-2 mb-4">
 					<div class="card" style="width: 100%;">
