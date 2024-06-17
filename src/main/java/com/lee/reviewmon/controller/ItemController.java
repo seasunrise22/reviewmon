@@ -22,10 +22,10 @@ public class ItemController {
 	@GetMapping("/")
 	public String index(Model model) {	
 		// 1. 서비스에서 모든 Item 데이터 가져오기
-		List<Item> itemLists = itemService.getAll();
+		List<Item> itemEntityLists = itemService.getAll();
 
 		// 2. 가져온 Item 묶음을 모델에 등록하기
-		model.addAttribute("itemLists", itemLists);
+		model.addAttribute("itemLists", itemEntityLists);
 
 		return "items/index";
 	}
