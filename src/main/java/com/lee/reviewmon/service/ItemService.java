@@ -25,6 +25,11 @@ public class ItemService {
 	public List<Item> getAll() {
 		return itemRepository.findAll();
 	}
+	
+	// 단일 작품 반환
+	public Item getOne(Long id) {
+		return itemRepository.findById(id).orElse(null);
+	}
 
 	// 새 작품 생성 메서드
 	public void create(ItemForm form) {

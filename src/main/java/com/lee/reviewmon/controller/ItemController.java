@@ -29,6 +29,17 @@ public class ItemController {
 
 		return "items/index";
 	}
+	
+	// 개별 작품 선택
+		@GetMapping("/items/{id}")
+		public String showItem(@PathVariable("id") Long id, Model model) {
+			System.out.println("id = " + id);
+			
+			Item itemEntity = itemService.getOne(id);
+			
+			model.addAttribute("item", itemEntity);
+			return "items/show";
+		}
 
 	// 작품 등록 페이지 호출
 	@GetMapping("/items/new")
@@ -43,12 +54,5 @@ public class ItemController {
 		
 		itemService.create(form);
 		return "redirect:/"; // return "items/index"; 하면 에러남. DB 저장 후 새로운 요청을 리다이렉트로 보내야 갱신된 값이 반영 됨.
-	}
-	
-	// 개별 작품 선택
-	@GetMapping("/items/{id}")
-	public String showItem(@PathVariable("id") Long id) {
-		System.out.println("id = " + id);
-		return "items/new";
 	}
 }
