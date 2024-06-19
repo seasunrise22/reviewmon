@@ -13,7 +13,7 @@
 		</div>
 		<div th:if="${not itemLists.isEmpty()}" class="row">
 			<div th:each="item : ${itemLists}" class="col-md-2 mb-4">
-				<a th:href="@{ '/items/' + ${item.id} }">
+				<a th:href="@{ '/items/' + ${item.id} }" class="text-decoration-none">
 					<div class="card" style="width: 100%;">
 						<img th:src="@{'/image/' + ${item.imageFileName}}"
 							class="card-img-top" alt="...">

@@ -7,18 +7,17 @@
 	<div class="container">
 		<!-- 작품 이미지 -->
 		<div class="row">
-			<div class="col-md-4 d-flex justify-content-start" style="margin-left: 0;">
+			<div class="col-md-4 d-flex justify-content-start"
+				style="margin-left: 0;">
 				<img th:src="@{'/image/' + ${item.imageFileName}}"
 					th:style="'max-width:300px; height:auto;'">
 			</div>
 			<!-- 작품 설명 -->
 			<div class="col-md-6 d-flex flex-column justify-content-center">
 				<div>
-					텍스트
+					<h2 th:text="${item.title}"></h2>
 					<hr>
-					텍스트
-					<hr>
-					텍스트
+					<pre th:text="${item.description}" style="white-space: pre-wrap"></pre>
 				</div>
 			</div>
 		</div>

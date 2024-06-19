@@ -9,7 +9,7 @@ public class Item {
 	private Long id;
 	@Column
 	private String title;
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	@Column
 	private String imageFileName;
