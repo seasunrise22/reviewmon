@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lee.reviewmon.dto.CommentDto;
 import com.lee.reviewmon.service.CommentService;
 
+/*
+ * 댓글 목록 불러올 땐 api 안 쓰고 ItemController.java 에서 CommentService.java 통해서 댓글목록 받아온 다음에 ItemController.java 에서 모델로 등록해서 사용
+ */
+
 @RestController
 public class CommentApiController {
 	@Autowired
