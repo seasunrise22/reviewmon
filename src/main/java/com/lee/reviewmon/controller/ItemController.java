@@ -37,10 +37,8 @@ public class ItemController {
 	// 개별 작품 선택
 	@GetMapping("/items/{id}")
 	public String showItem(@PathVariable("id") Long id, Model model) {
-		System.out.println("id = " + id);
-
 		// id를 조회해 데이터 가져오기
-		Item itemEntity = itemService.getOne(id);
+		Item itemEntity = itemService.getOne(id); // 댓글 등록할 때 어떤 작품인지 전달하기 위해 작품 엔티티 넘겨 줌
 		List<CommentDto> commentDtos = commentService.comments(id);
 
 		// 모델에 데이터 등록

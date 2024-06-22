@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lee.reviewmon.dto.CommentDto;
 import com.lee.reviewmon.service.CommentService;
 
 /*
- * 댓글 목록 불러올 땐 api 안 쓰고 ItemController.java 에서 CommentService.java 통해서 댓글목록 받아온 다음에 ItemController.java 에서 모델로 등록해서 사용
+ * 실제 웹페이지에서 댓글 기능을 전부 api 경유하진 않고 경유하는 것도 있고 바로 댓글 서비스 통해서 하는 것도 있음
+ * API 요청 통해서: 댓글 생성
+ * ItemController에서 CommentService 통해서: 댓글 목록 조회
  */
 
 @RestController
@@ -21,6 +26,9 @@ public class CommentApiController {
 	@Autowired
 	private CommentService commentService;
 	
+	/*
+	 * 실제 댓글목록 조회는 api 경유하지 않고 CommentService 통해서 출력
+	 */
 	// 댓글 조회
 	@GetMapping("/api/items/{itemId}/comments")
 	public ResponseEntity<List<CommentDto>> comments(@PathVariable("itemId") Long itemId) {
@@ -30,5 +38,19 @@ public class CommentApiController {
 		// 결과 응답
 		return ResponseEntity.status(HttpStatus.OK).body(dtos);
 	}
+	
+	// 댓글 생성
+	@PostMapping("/api/items/{itemId}/comments")
+	public ResponseEntity<CommentDto> create(@PathVariable("itemId") Long itemId, @RequestBody CommentDto dto) {
+		CommentDto createdDto = commentService.create(itemId, dto);
+		return ResponseEntity.status(HttpStatus.OK).body(createdDto);
+	}
+	
+	// 댓글 수정
+		@PatchMapping("/api/comments/{id}")
+		public ResponseEntity<CommentDto> update(@PathVariable("id") Long id, @RequestBody CommentDto dto) {
+			CommentDto updatedDto = commentService.update(id, dto);
+			return ResponseEntity.status(HttpStatus.OK).body(updatedDto);
+		}
 
 }
