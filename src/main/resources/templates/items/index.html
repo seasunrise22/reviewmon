@@ -12,7 +12,7 @@
 			<p>등록된 작품이 없습니다.</p>
 		</div>
 		<div th:if="${not itemLists.isEmpty()}" class="row">
-			<div th:each="item : ${itemLists}" class="col-md-2 mb-4">
+			<div th:each="item : ${itemLists}" class="col-md-3 mb-4">
 				<a th:href="@{ '/items/' + ${item.id} }" class="text-decoration-none">
 					<div class="card" style="width: 100%;">
 						<img th:src="@{'/image/' + ${item.imageFileName}}"
