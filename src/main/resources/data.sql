@@ -35,10 +35,16 @@ VS 여자가 무슨 말 할지 겁나는 남자
 INSERT INTO item(title, description, image_file_name) VALUES('프렌치 수프', '20년간 최고의 요리를 함께 탄생시킨 외제니와 도댕. 그들의 요리 안에는 서로에 대한 존경과 배려, 그리고 사랑이 있다. 인생의 가을에 다다른 두 사람, 한여름과 자유를 사랑하는 외제니는 도댕의 청혼을 거절하고 도댕은 오직 그녀만을 위한 요리를 만들기 시작한다.', '1719108125915.jpg')
 INSERT INTO item(title, description, image_file_name) VALUES('퓨리오사: 매드맥스 사가
 ', '문명 붕괴 45년 후, 황폐해진 세상에 무참히 던져진 ''퓨리오사''가 고향으로 돌아가기 위해 자신의 인생 전부를 걸고 떠나는 거대한 여정을 그린 액션 블록버스터', '1719108221431.jpg')
-INSERT INTO item(title, description, image_file_name) VALUES('극장판 하이큐!! 쓰레기장의 결전
-', '봄철 고교 배구대회 1회전과 2회전에서 우승 후보를 차례로 꺾은 카라스노 고등학교는 마침내 3회전에서 인연의 라이벌 네코마 고등학교와 맞붙게 된다. 공식 경기에서 처음으로 대결하는 두 고등학교, 통칭 까마귀 VS 고양이 ‘쓰레기장의 결전’. 약속의 땅에서 ‘한 번 더’가 없는 싸움이 드디어 시작된다!', '1719108338828.jpg')
+INSERT INTO item(title, description, image_file_name) VALUES('북극백화점의 안내원
+', '어서 오세요!
+세상에 딱 하나뿐인 ‘북극백화점’으로!
+
+동물들이 고객인 ‘북극백화점’. 프러포즈를 앞둔 소심한 일본늑대, 서로를 위해 깜짝 선물을 찾고 있는 바다밍크 부녀, 사랑을 얻기 위해 단종된 향수를 찾는 바바리사자까지! V.I.A(Very Important Animal)를 만족시키기 위한 수습 안내원 ‘아키노’의 좌충우돌 정직원 되기 프로젝트!
+
+6월 19일, 웃음과 감동, 힐링 모두 다 담아 드릴게요!', '1719111086929.jpg')
+
 
 
 --댓글 더미데이터
-INSERT INTO comment(item_id, nickname, body, star) VALUES(1, '성민', '재밌어요.', 4.5)
-INSERT INTO comment(item_id, nickname, body, star) VALUES(1, '지나', '감동이에요.', 5.0)
+--INSERT INTO comment(item_id, nickname, body, star) VALUES(1, '성민', '재밌어요.', 4.5)
+--INSERT INTO comment(item_id, nickname, body, star) VALUES(1, '지나', '감동이에요.', 5.0)
