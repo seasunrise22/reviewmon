@@ -1,4 +1,4 @@
-# reviewmon
+# ReviewMon
 - 개발인원 : 1명
 - 역할
   - 전체
@@ -39,135 +39,221 @@
 ---
 ![(댓글) show 화면 댓글 수정 후](https://github.com/seasunrise22/reviewmon/assets/45503931/b369e69e-401c-45e3-80ae-52445b62e5be)
 
-## Code Preview
 ## 프로그램의 전반적인 동작 흐름
 
-### MVC 패턴 구조
+### 주요 로직
+#### 작품 등록
+![(로직) 댓글 등록 로직](https://github.com/seasunrise22/reviewmon/assets/45503931/c945b2f5-c05e-4bab-aa38-d473539d0012)
+#### 작품별 댓글 등록
+![(로직)작품 등록 로직](https://github.com/seasunrise22/reviewmon/assets/45503931/a269a510-5200-4cfa-8105-4a5f9632693f)
+#### 프로젝트 구조
+![(구조) 프로젝트 구조](https://github.com/seasunrise22/reviewmon/assets/45503931/823123fe-647a-4f46-8d10-365603a51d20)
 
-![디렉터리1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/687ff830-b4a6-4906-b222-dbc467bb8810)
+## Code Preview
+### 작품 목록 조회
+"/" 경로로 요청이 들어오면 컨트롤러에서 ItemService 객체의 getAll 메서드를 호출해 전체 작품 목록 리스트를 받아옵니다.
 
-MVC 패턴에 따라 프로젝트를 모델(Model), 뷰(View), 컨트롤러(Controller)로 계층화 하였습니다.
+받아온 작품 목록 리스트는 model.addAttribute 으로 모델에 등록해 뷰 페이지에서 받아볼 수 있게 합니다.
+```java
+@Controller
+public class ItemController {
+	@Autowired
+	ItemService itemService;
+	@Autowired
+	CommentService commentService;
 
-게시글을 열람하는 과정을 통해 프로젝트의 동작 흐름을 알아보겠습니다.
+	// 전체 작품 조회
+	@GetMapping("/")
+	public String index(Model model) {
+		// 1. 서비스에서 모든 Item 데이터 가져오기
+		List<Item> itemEntityLists = itemService.getAll();
 
-### 뷰(View)
+		// 2. 가져온 Item 묶음을 모델에 등록하기
+		model.addAttribute("itemLists", itemEntityLists);
 
-게시글 목록(list.jsp)에서 특정 게시글을 클릭하면 서버의 /read 경로에 게시글 id 값을 붙여서 전송합니다.
+		return "items/index";
+	}
+```
 
-```jsp
-<c:forEach var="post" items="${posts}">
-				<div class="row">
-					<div class="cell">${post.id}</div>
-					<div class="cell">
-						<a href="/read/${post.id}">${post.title}</a>
+뷰 페이지에서는 타임리프 문법으로 itemLists 에서 item을 하나하나 꺼내 웹페이지에 렌더링합니다.
+```java
+<div layout:fragment="content">
+	<div class="container">
+		<div class="d-flex justify-content-start mb-4">
+			<a href="/items/new" class="btn btn-primary">등록</a>
+		</div>
+		<div th:if="${itemLists.isEmpty()}">
+			<p>등록된 작품이 없습니다.</p>
+		</div>
+		<div th:if="${not itemLists.isEmpty()}" class="row">
+			<div th:each="item : ${itemLists}" class="col-md-3 mb-4">
+				<a th:href="@{ '/items/' + ${item.id} }" class="text-decoration-none">
+					<div class="card" style="width: 100%;">
+						<img th:src="@{'/image/' + ${item.imageFileName}}"
+							class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text" th:text="${item.title}"></p>
+						</div>
 					</div>
-					<div class="cell">${post.author}</div>
-					<div class="cell">${post.createdAt}</div>
-					<div class="cell">${post.views}</div>
-				</div>
-			</c:forEach>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 ```
 
-### 컨트롤러(Controller)
-사용자의 요청을 처리하고 뷰와 모델 사이에서 적절한 중재역할을 하기 위한 컨트롤러인 BoardController.java 파일의 일부입니다.
-
-넘어온 게시글의 id 값을 **@PathVariable** 로 받아 서비스의 getPostById 메서드로 넘겨주어 게시글에 대한 데이터를 가져오게 합니다.
-
-이후 받아온 게시글 데이터는 **model.addAttribute("post", boardService.getPostById(id));** 를 통해 post 라는 이름으로 뷰에서 사용할 수 있습니다.
+### 작품 등록
+form 태그의 action 속성으로 작품 등록 요청을 받는 컨트롤러로 요청을 보냅니다.
 
 ```java
-@GetMapping("/read/{id}")
-	public String readPost(@PathVariable Integer id, Model model) {
-		boardService.incrementViews(id); // 조회수 증가
-
-		model.addAttribute("post", boardService.getPostById(id));
-		model.addAttribute("comments", boardService.getCommentsById(id));
-		return "board/read";
-	}
+<div layout:fragment="content">
+	<form class="container" action="/items/create" method="post" enctype="multipart/form-data">
+		<div class="form-group mb-3">
+			<input type="file" class="form-control-file" name="image">
+		</div>
+		<div class="form-group mb-3">
+			<input type="text" class="form-control" name="title"
+				placeholder="작품명">
+		</div>
+		<div class="form-group mb-3">
+			<textarea class="form-control" rows="3" name="description"
+				placeholder="작품설명"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">등록</button>	
+		<a href="/" class="btn btn-secondary">목록</a>			
+	</form>
+</div>
 ```
 
-### 모델(Model) - 모델 객체
-데이터를 표현하고 전송하고 처리하기 위한 모델 객체가 미리 정의되어 있어야 합니다.
-
-아래는 게시글 모델 객체인 Post.java 의 일부입니다.
-
+컨트롤러에서는 서비스의 create 메서드로 클라이언트로부터 받은 form 객체를 전달합니다.
 ```java
-package com.springstudy.models;
+// 새 작품 생성
+	@PostMapping("/items/create")
+	public String create(ItemForm form) {
+		System.out.println(form.toString());
 
-import java.util.Date;
-
-public class Post {
-	private Integer id; // 데이터베이스 자동 증가
-	private String author;
-	private String password;
-	private String title;
-	private String content;
-	private Date createdAt; // 데이터베이스 자동 할당
-	private Date updatedAt; // 데이터베이스 자동 할당
-	private int views;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
+		itemService.create(form);
+		return "redirect:/"; // return "items/index"; 하면 에러남. DB 저장 후 새로운 요청을 리다이렉트로 보내야 갱신된 값이 반영 됨.
 	}
 ```
 
-### 모델(Model) - 서비스
-컨트롤러로부터 호출 된 서비스객체 입니다.
+서비스 에서는 이미지 파일을 처리 한 후 Form 데이터인 DTO를 엔티티로 변환 한 다음
 
-서비스객체 에서는 조회수 증가 같은 비즈니스 로직을 담당하며, 데이터베이스와 직접적인 상호작용을 하는 객체와 연결시켜 줍니다.
+JPA Repository를 통해 데이터베이스에 저장합니다.
 
+이미지 파일은 정해진 디렉터리에 저장 후 데이터베이스에는 이미지 파일명만 저장하는 방식으로 데이터베이스 용량 부담을 줄였습니다.
 ```java
-public Post getPostById(Integer id) {
-		return boardDAO.getPostById(id);
-	}
-
-public void incrementViews(Integer id) {
-		Post post = boardDAO.getPostById(id);
-		post.incrementViews();
-		boardDAO.updateViews(post);
-	}
-```
-
-### 모델(Model) - DAO(Data Access Object)
-데이터베이스와 직접적으로 상호작용하는 DAO객체의 일부입니다.
-
-DAO 에서는 쿼리문을 통해 직접적으로 데이터베이스에서 데이터를 가져옵니다.
-
-```java
-public Post getPostById(Integer id) {
-		Post post = null;
-		try(Connection conn = dataSource.getConnection()) {
-			String sql = "SELECT * FROM posts WHERE id = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
-				post = new Post();
-				post.setId(rs.getInt("id"));
-				post.setPassword(rs.getString("password"));
-				post.setAuthor(rs.getString("author"));
-				post.setTitle(rs.getString("title"));
-				post.setContent(rs.getString("content"));
-				post.setCreatedAt(rs.getDate("createdAt"));
-				post.setUpdatedAt(rs.getDate("updatedAt"));
-				post.setViews(rs.getInt("views"));				;
+// 새 작품 생성 메서드
+	public void create(ItemForm form) {
+		// 이미지 파일 처리
+		MultipartFile imageFile = form.getImage(); // 이미지 파일 추출
+		String imageFileName = null;
+		
+		if(!imageFile.isEmpty()) { // 이미지 파일 유효성 검사
+			try {
+				System.out.println("imageFile 조건 진입");
+				// 이미지 파일을 저장할 디렉터리 설정
+				File uploadDirFile = new File(uploadDir); // uploadDir 경로에 해당하는 디렉터리를 제어하는 File 객체 생성
+				if(!uploadDirFile.exists()) {
+					uploadDirFile.mkdirs();
+				}
+				System.out.println("업로드 디렉터리: " + uploadDir);
+				
+				// 파일 저장
+				String originalFileName = imageFile.getOriginalFilename(); // 원래 파일명 추출
+				String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 마지막 . 이후 문자열 자름 즉 확장자 .jpg
+				String uniqueFileName = System.currentTimeMillis() + fileExtension; // 현재 시간을 밀리초 단위로 가져와서 확장자와 합친 문자열 생성
+				File destinationFile = new File(uploadDirFile, uniqueFileName); // 이미지 파일을 저장할 경로 생성
+				imageFile.transferTo(destinationFile); // 실제 저장
+				imageFileName = uniqueFileName; 
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch(Exception e) {
-			e.printStackTrace();
 		}
-		return post;
+		
+		// 1. DTO를 엔티티로 변환
+		Item itemEntity = form.toEntity(imageFileName);
+		System.out.println(itemEntity.toString());
+		
+		// 2. 리파지터리로 엔티티를 DB에 저장
+		Item saved = itemRepository.save(itemEntity);
+		System.out.println(saved.toString());
+	}
+```
+
+### 작품별 댓글 등록
+댓글 생성 기능은 작품 생성과는 달리 비동기적으로 생성하기 위해, 자바스크립트의 fetch 메서드로 api 요청을 보냅니다.
+
+```javascript
+// 댓글 생성 처리
+{
+	// 댓글 생성 버튼 변수화
+	const commentCreateBtn = document.querySelector("#comment-create-btn");
+	
+	// 댓글 클릭 이벤트 감지
+	commentCreateBtn.addEventListener("click", function() {
+		// 새 댓글 객체 생성
+		const comment = {
+			nickname : document.querySelector("#new-comment-nickname").value,
+			star : document.querySelector("#new-comment-star").value,
+			body : document.querySelector("#new-comment-body").value,
+			itemId : document.querySelector("#new-comment-item-id").value,
+		}
+		console.log(comment); // 댓글 객체 출력
+		
+		// fetch - 비동기 통신을 위한 API
+		const url = "/api/items/" + comment.itemId + "/comments";
+		fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(comment)
+		}).then(response => {
+			// HTTP 응답 코드에 따른 메시지 출력
+			/* const msg = (response.ok) ? "댓글이 등록되었습니다!" : "댓글 등록 실패!";
+			alert(msg); */
+			
+			// 페이지 새로고침
+			window.location.reload();
+		});
+	});		
+}
+```
+
+fetch 메서드로 보내진 요청은 api 컨트롤러가 받아 서비스로 작품id와 폼 데이터를 전달합니다.
+
+```javascript
+// 댓글 생성(fetch 통해서 api 경유)
+	@PostMapping("/api/items/{itemId}/comments")
+	public ResponseEntity<CommentDto> create(@PathVariable("itemId") Long itemId, @RequestBody CommentDto dto) {
+		CommentDto createdDto = commentService.create(itemId, dto);
+		return ResponseEntity.status(HttpStatus.OK).body(createdDto);
+	}
+```
+
+DB 수정이 실패할 경우를 대비해 @Transactional 어노테이션을 붙여 실패시 롤백되도록 했습니다.
+
+댓글 생성 서비스에서는 전달 받은 작품id로 JPA Repository를 통해 데이터베이스에서 해당 작품 객체를 찾고,
+
+찾은 작품 객체와 보내어 진 댓글 form을 이용해 댓글 엔티티를 생성 한 후 CommentRepository를 통해 데이터베이스에 댓글을 저장합니다.
+
+```javascript
+// 댓글 생성
+	@Transactional
+	public CommentDto create(Long itemId, CommentDto dto) {
+		// 게시글 조회 및 예외 발생
+		Item item = itemRepository.findById(itemId)
+				.orElseThrow(() -> new IllegalArgumentException("댓글 생성 실패! 대상 게시글이 없습니다."));
+
+		// 댓글 엔티티 생성
+		Comment comment = Comment.createComment(dto, item);
+
+		// 댓글 엔티티를 DB에 저장
+		Comment created = commentRepository.save(comment);
+
+		// DTO로 변환해 반환
+		return CommentDto.createCommentDto(created);
 	}
 ```
 
