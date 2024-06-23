@@ -19,50 +19,25 @@
 - Eclipse IDE(2024-06)
 - Adoptium JDK (17.0.11.9)
 ## Screenshots
-## 1. 게시판
+### 1. 작품 목록 CRUD
 
-### 게시글 목록
+![index 화면 작품 등록 전](https://github.com/seasunrise22/reviewmon/assets/45503931/c27959b6-694e-4c49-befa-57c7b31164b4)
+---
+![index 화면 작품 등록 중](https://github.com/seasunrise22/reviewmon/assets/45503931/fb471856-09b0-416a-bfd2-5f826bb3f319)
+---
+![index 화면 작품 등록 후](https://github.com/seasunrise22/reviewmon/assets/45503931/8218d62f-a182-4fe5-b5ec-b15a5e08af5e)
+---
+![show 화면 작품 등록 후](https://github.com/seasunrise22/reviewmon/assets/45503931/42a0db7c-3178-43bb-b1bb-dcdb8d2a3c5e)
 
-![게시글리스트](https://github.com/seasunrise22/spring_crud_study/assets/45503931/19d73d93-723e-4ded-bf17-3bb3c8405e14)
+### 작품별 댓글 CRUD
 
-### 게시글 작성
-
-![게시글작성](https://github.com/seasunrise22/spring_crud_study/assets/45503931/28baf19f-dcdc-4bb5-b861-1d98e4b512fb)
-
-### 게시글 열람
-
-![게시글열람1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/9ecf97ab-43c7-44ae-a6c4-905370e59268)
-![게시글열람2](https://github.com/seasunrise22/spring_crud_study/assets/45503931/8c54be8f-a4fc-4f9b-8dc0-8ef23e7f1c27)
-
-### 게시글 수정
-
-![게시글수정1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/61e9cc92-d588-4cab-81f2-a1c6137419a9)
-![게시글수정2](https://github.com/seasunrise22/spring_crud_study/assets/45503931/1d81716a-92e3-4935-b209-83f9a923ee7b)
-![게시글수정3](https://github.com/seasunrise22/spring_crud_study/assets/45503931/1c921586-ec98-4187-a722-bccfb98d0f30)
-![게시글수정4](https://github.com/seasunrise22/spring_crud_study/assets/45503931/4070f856-30f5-4037-8783-209c2912d8ea)
-
-### 게시글 삭제
-
-![게시글삭제1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/ecf1627e-bfdf-4c5c-850b-29f332bb4924)
-![게시글삭제2](https://github.com/seasunrise22/spring_crud_study/assets/45503931/6875a390-d389-42e4-b084-240042ee54b0)
-
-### 페이지네이션
-
-![페이지1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/eff3fffe-3ed1-4e57-a10e-97017eb2f50d)
-![페이지2](https://github.com/seasunrise22/spring_crud_study/assets/45503931/38102005-db7a-4e4c-8df6-080b15ba4a33)
-![페이지3](https://github.com/seasunrise22/spring_crud_study/assets/45503931/4b2a7869-dde1-4bf2-8c12-f98907d1a9bf)
-![페이지4](https://github.com/seasunrise22/spring_crud_study/assets/45503931/b67667db-523a-4ee8-a34b-0c91138d1f8d)
-
-## 2. 댓글
-
-### 댓글 목록
-
-![댓글목록](https://github.com/seasunrise22/spring_crud_study/assets/45503931/855ff8c6-8826-488c-af8c-eb4ac7615826)
-
-### 댓글 작성
-
-![댓글작성1](https://github.com/seasunrise22/spring_crud_study/assets/45503931/5073c543-ed3b-48cf-9470-e1e503a200d6)
-![댓글작성2](https://github.com/seasunrise22/spring_crud_study/assets/45503931/654f5ae2-6182-46a3-9ed8-273a35455131)
+![(댓글) show 화면 댓글 등록 전](https://github.com/seasunrise22/reviewmon/assets/45503931/0013ea67-414a-4628-bf25-b80fe7a66bf7)
+---
+![(댓글) show 화면 댓글 등록 후](https://github.com/seasunrise22/reviewmon/assets/45503931/71cfaed1-6836-48c3-977c-a800e14fcc34)
+---
+![(댓글) show 화면 댓글 수정 전](https://github.com/seasunrise22/reviewmon/assets/45503931/b419bf10-e355-4943-99b1-3e2d948ff412)
+---
+![(댓글) show 화면 댓글 수정 후](https://github.com/seasunrise22/reviewmon/assets/45503931/b369e69e-401c-45e3-80ae-52445b62e5be)
 
 ## Code Preview
 ## 프로그램의 전반적인 동작 흐름
