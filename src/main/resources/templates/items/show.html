@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/default.html}">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default.html}">
 <div layout:fragment="content">
 	<div class="container">
 		<!-- 버튼 -->
 		<div class="row mb-2">
 			<div class="col-auto">
-				<a href="/" class="btn btn-secondary">목록</a> <a href="/"
-					class="btn btn-warning">수정</a> <a href="/" class="btn btn-danger">삭제</a>
+				<a href="/" class="btn btn-secondary">목록</a>
+				<a href="/" class="btn btn-warning">수정</a>
+				<a href="/" class="btn btn-danger">삭제</a>
 			</div>
 		</div>
 		<!-- 작품 이미지 -->
 		<div class="row">
 			<div class="col-md-4 d-flex justify-content-start">
-				<img th:src="@{'/image/' + ${item.imageFileName}}"
-					th:style="'max-width:300px; height:auto;'">
+				<img th:src="@{'/image/' + ${item.imageFileName}}" th:style="'max-width:300px; height:auto;'">
 			</div>
 			<!-- 작품 설명 -->
 			<div class="col-md-6 d-flex flex-column justify-content-center">
@@ -27,203 +24,8 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- 댓글 목록 -->
-		<div class="row">
-			<div class="col-6">
-				<div class="card mt-2" th:each="comment : ${commentDtos}">
-					<div class="card-header">
-						<span th:text="${comment.nickname}"></span>
-						<!-- 댓글 수정 모달 버튼 / Button trigger modal -->
-						<button type="button"
-							class="btn btn-sm btn-outline-warning border-2 text-dark"
-							data-bs-toggle="modal" data-bs-target="#comment-edit-modal"
-							th:data-bs-item-id="${comment.itemId}"
-							th:data-bs-id="${comment.id}"
-							th:data-bs-nickname="${comment.nickname}"
-							th:data-bs-star="${comment.star}"
-							th:data-bs-body="${comment.body}">수정</button>
-						<!-- 댓글 수정 모달 버튼 / Button trigger modal / 끝 -->
-						<button type="button"
-							class="btn btn-sm btn-outline-danger border-2 text-dark">삭제</button>
-					</div>
-					<div class="card-body">
-						<h5 class="card-title" th:text="${comment.star} + '점'">별점</h5>
-						<p class="card-text" th:text="${comment.body}">내용</p>
-					</div>
-				</div>
-			</div>
-			<!-- 댓글 수정 모달창 / Modal -->
-			<div class="modal fade" id="comment-edit-modal" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5">댓글 수정</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<form class="row">
-								<div class="col-md-6">
-									<div class="mb-3">
-										<input type="text" class="form-control" placeholder="닉네임"
-											style="font-weight: bold" id="edit-comment-nickname">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<input type="text" class="form-control" placeholder="별점"
-											style="font-weight: bold" id="edit-comment-star">
-									</div>
-								</div>
-								<div class="mb-3 col-12">
-									<input type="text" class="form-control" placeholder="한줄평"
-										style="font-weight: bold" id="edit-comment-body">
-								</div>
-								<!-- 히든 인풋 -->
-								<input type="hidden" id="edit-comment-id"> <input
-									type="hidden" id="edit-comment-item-id">
-								<div>
-									<button type="button" class="btn btn-primary"
-										id="comment-update-btn">수정 완료</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 댓글 수정 모달창 / Modal / 끝 -->
-		</div>
-		<!-- 댓글 쓰기 -->
-		<div class="row mt-2">
-			<div class="col-6">
-				<div class="card">
-					<div class="card-body">
-						<form class="row">
-							<div class="col-md-6">
-								<div class="mb-3">
-									<input type="text" class="form-control" placeholder="닉네임"
-										style="font-weight: bold" id="new-comment-nickname">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="mb-3">
-									<input type="text" class="form-control" placeholder="별점"
-										style="font-weight: bold" id="new-comment-star">
-								</div>
-							</div>
-							<div class="mb-3 col-12">
-								<input type="text" class="form-control" placeholder="한줄평"
-									style="font-weight: bold" id="new-comment-body">
-							</div>
-							<!-- 히든 인풋 -->
-							<input type="hidden" th:value="${item.id}"
-								id="new-comment-item-id">
-							<div>
-								<button type="button" class="btn btn-primary"
-									id="comment-create-btn">댓글 작성</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- 댓글 -->
+		<div th:replace="~{fragments/showComment::comment}"></div>
 	</div>
 </div>
-
-<script layout:fragment="script">
-// 댓글 생성 처리
-{
-	// 댓글 생성 버튼 변수화
-	const commentCreateBtn = document.querySelector("#comment-create-btn");
-	
-	// 댓글 클릭 이벤트 감지
-	commentCreateBtn.addEventListener("click", function() {
-		// 새 댓글 객체 생성
-		const comment = {
-			nickname : document.querySelector("#new-comment-nickname").value,
-			star : document.querySelector("#new-comment-star").value,
-			body : document.querySelector("#new-comment-body").value,
-			itemId : document.querySelector("#new-comment-item-id").value,
-		}
-		console.log(comment); // 댓글 객체 출력
-		
-		// fetch - 비동기 통신을 위한 API
-		const url = "/api/items/" + comment.itemId + "/comments";
-		fetch(url, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(comment)
-		}).then(response => {
-			// HTTP 응답 코드에 따른 메시지 출력
-			/* const msg = (response.ok) ? "댓글이 등록되었습니다!" : "댓글 등록 실패!";
-			alert(msg); */
-			
-			// 페이지 새로고침
-			window.location.reload();
-		});
-	});		
-}
-
-// 모달 이벤트 처리
-{
-	// 모달 요소 선택
-	const commentEditModal = document.querySelector("#comment-edit-modal");
-	
-	// 모달 이벤트 감지
-	commentEditModal.addEventListener("show.bs.modal", function(event) {
-		// 1. 트리거 버튼 선택
-		const triggerBtn = event.relatedTarget;
-		// 2. 데이터 가져오기
-		const id = triggerBtn.getAttribute("data-bs-id");
-		const itemId = triggerBtn.getAttribute("data-bs-item-id");
-		const nickname = triggerBtn.getAttribute("data-bs-nickname");
-		const star = triggerBtn.getAttribute("data-bs-star");
-		const body = triggerBtn.getAttribute("data-bs-body");
-		// 3. 수정 폼에 데이터 반영
-		document.querySelector("#edit-comment-id").value = id;
-		document.querySelector("#edit-comment-item-id").value = itemId;
-		document.querySelector("#edit-comment-nickname").value = nickname;
-		document.querySelector("#edit-comment-star").value = star;
-		document.querySelector("#edit-comment-body").value = body;
-	});
-}
-
-// 모달창에서 댓글 수정 처리
-{
-	// 수정 완료 버튼 선택
-	const commentUpdateBtn = document.querySelector("#comment-update-btn");
-	// 클릭 이벤트 처리
-	commentUpdateBtn.addEventListener("click", function() {
-		// 수정 댓글 객체 생성
-		const comment = {
-				id : document.querySelector("#edit-comment-id").value,
-				itemId : document.querySelector("#edit-comment-item-id").value,
-				nickname : document.querySelector("#edit-comment-nickname").value,
-				star : document.querySelector("#edit-comment-star").value,
-				body : document.querySelector("#edit-comment-body").value		
-		}
-		console.log(comment); // 수정 댓글 객체 출력
-		
-		// fetch - 비동기 통신을 위한 API
-		const url = "/api/comments/" + comment.id;
-		fetch(url, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(comment)
-		}).then(response => {
-			// HTTP 응답 코드에 따른 메시지 출력
-			/*const msg = (response.ok) ? "댓글이 수정되었습니다!" : "댓글 수정 실패!";
-			alert(msg);*/
-			
-			// 페이지 새로고침
-			window.location.reload();
-		});
-	});
-}
-</script>
 </html>
