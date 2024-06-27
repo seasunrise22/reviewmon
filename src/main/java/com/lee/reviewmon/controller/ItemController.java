@@ -38,7 +38,7 @@ public class ItemController {
 	@GetMapping("/items/{id}")
 	public String showItem(@PathVariable("id") Long id, Model model) {
 		// id를 조회해 데이터 가져오기
-		Item itemEntity = itemService.getOne(id); // 댓글 등록할 때 어떤 작품인지 전달하기 위해 작품 엔티티 넘겨 줌
+		Item itemEntity = itemService.getOne(id); // 댓글 등록할 때 어떤 작품인지 전달하기 위해 & 작품 정보 출력하기 위해 클릭한 작품 엔티티 넘겨 줌
 		List<CommentDto> commentDtos = commentService.comments(id);
 
 		// 모델에 데이터 등록
