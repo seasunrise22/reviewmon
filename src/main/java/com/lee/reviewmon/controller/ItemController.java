@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.lee.reviewmon.dto.CommentDto;
 import com.lee.reviewmon.dto.ItemForm;
@@ -64,7 +65,7 @@ public class ItemController {
 		return "redirect:/"; // return "items/index"; 하면 에러남. DB 저장 후 새로운 요청을 리다이렉트로 보내야 갱신된 값이 반영 됨.
 	}
 	
-	// 상품 수정
+	// 상품 수정 페이지 호출
 	@GetMapping("/items/{id}/edit")
 	public String edit(@PathVariable("id")Long id, Model model) {
 		// 서비스에 id값 넘겨서 DB에서 데이터 가져오기
@@ -75,5 +76,14 @@ public class ItemController {
 		
 		// 수정 페이지 반환
 		return "items/edit";
+	}
+	
+	// 상품 수정 로직
+	@PostMapping("/items/update")
+	public String update(ItemForm form) {
+		// form 데이터 넘겨서 서비스에서 수정 작업 수행
+		Item updatedItem = itemService.update(form);
+		
+		return "redirect:/items/" + updatedItem.getId();
 	}
 }

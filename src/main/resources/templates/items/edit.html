@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default.html}">
 
 <div layout:fragment="content">
-	<form class="container" action="/items/create" method="post" enctype="multipart/form-data">
+	<form class="container" action="/items/update" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" th:value="${item.id}">
 		<div class="form-group mb-3">
 			<input type="file" class="form-control-file" name="image">
 			<div th:if="${item.imageFileName != null}">

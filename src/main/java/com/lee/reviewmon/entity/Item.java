@@ -17,6 +17,13 @@ public class Item {
 	public Item() {
 	}
 	
+	public Item(Long id, String title, String description, String imageFileName) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.imageFileName = imageFileName;
+	}
+	
 	public Item(String title, String description, String imageFileName) {
 		this.title = title;
 		this.description = description;
