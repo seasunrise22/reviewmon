@@ -67,4 +67,25 @@ public class ItemService {
 		Item saved = itemRepository.save(itemEntity);
 		System.out.println(saved.toString());
 	}
+	
+	// 엔티티 -> DTO 변환 함수
+	public ItemForm convertToDTO(Item itemEntity) {
+		return new ItemForm(
+				// String title, String description, MultipartFile image
+				itemEntity.getTitle(),
+				itemEntity.getDescription(),
+				itemEntity.getImageFileName()
+				);
+	}
+
+	// 게시글 수정 함수
+	public ItemForm edit(Long id) {
+		// id로 DB에서 ItemEntity 객체 찾아서 반환
+		Item itemEntity = itemRepository.findById(id).orElse(null);
+		
+		// 엔티티를 DTO로 변환
+		ItemForm itemDTO = convertToDTO(itemEntity);
+		
+		return itemDTO;
+	}
 }
