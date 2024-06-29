@@ -86,4 +86,13 @@ public class ItemController {
 		
 		return "redirect:/";
 	}
+	
+	// 작품 삭제 요청 처리
+	@GetMapping("/items/{id}/delete")
+	public String delete(@PathVariable("id") Long id) {
+		System.out.println("id value is " + id);
+		
+//		return "items/index"; "items/index" 하면 에러 나는데, 컨트롤러를 거쳐서 model.addattribute로 데이터를 매핑하지 않고 그냥 index.html 파일을 렌더링해서 모델값이 없어서 에러나는 듯. 
+		return "redirect:/";
+	}
 }
