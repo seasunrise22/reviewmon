@@ -82,8 +82,8 @@ public class ItemController {
 	@PostMapping("/items/update")
 	public String update(ItemForm form) {
 		// form 데이터 넘겨서 서비스에서 수정 작업 수행
-		Item updatedItem = itemService.update(form);
+		itemService.update(form);
 		
-		return "redirect:/items/" + updatedItem.getId();
+		return "redirect:/";
 	}
 }
