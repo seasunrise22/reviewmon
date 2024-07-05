@@ -175,6 +175,15 @@ public class ItemService {
 
 		return null;
 	}
+
+	public void delete(Long id) {
+		// item 객체 찾기
+		Item target = itemRepository.findById(id).orElse(null);
+		
+		// 삭제
+		if(target != null) 
+			itemRepository.delete(target);
+	}
 }
 
 /*
