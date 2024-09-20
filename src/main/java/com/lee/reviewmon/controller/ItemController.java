@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.lee.reviewmon.dto.CommentDto;
 import com.lee.reviewmon.dto.ItemForm;
@@ -91,6 +88,8 @@ public class ItemController {
 	@GetMapping("/items/{id}/delete")
 	public String delete(@PathVariable("id") Long id) {
 		System.out.println("id value is " + id);
+
+		itemService.delete(id);
 		
 //		return "items/index"; "items/index" 하면 에러 나는데, 컨트롤러를 거쳐서 model.addattribute로 데이터를 매핑하지 않고 그냥 index.html 파일을 렌더링해서 모델값이 없어서 에러나는 듯. 
 		return "redirect:/";

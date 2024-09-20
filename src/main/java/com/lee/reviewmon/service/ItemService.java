@@ -175,6 +175,10 @@ public class ItemService {
 
 		return null;
 	}
+
+	public void delete(Long id) {
+		itemRepository.findById(id).ifPresent(target -> itemRepository.delete(target));
+	}
 }
 
 /*
