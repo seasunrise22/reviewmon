@@ -2,15 +2,11 @@ package com.lee.reviewmon.api;
 
 import java.util.List;
 
+import com.lee.reviewmon.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lee.reviewmon.dto.CommentDto;
 import com.lee.reviewmon.service.CommentService;
@@ -53,4 +49,11 @@ public class CommentApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(updatedDto);
 	}
 
+	// 댓글 삭제(fetch 통해서 api 경유)
+	@DeleteMapping("/api/comments/{id}")
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+		System.out.println("delete id is: " + id);
+		commentService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
