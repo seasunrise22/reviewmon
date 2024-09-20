@@ -47,7 +47,8 @@
 #### 작품별 댓글 등록
 ![(로직)작품 등록 로직](https://github.com/seasunrise22/reviewmon/assets/45503931/a269a510-5200-4cfa-8105-4a5f9632693f)
 #### 프로젝트 구조
-![(구조) 프로젝트 구조](https://github.com/seasunrise22/reviewmon/assets/45503931/823123fe-647a-4f46-8d10-365603a51d20)
+
+![리뷰몬코드구조](https://github.com/user-attachments/assets/e7adc3d5-094b-4e9c-b29f-16b34f717d06)
 
 ## Code Preview
 ### 작품 목록 조회
